@@ -212,7 +212,12 @@ def render(Image, ImageDraw, ImageFont, out_path):
     _card(d, 24, 518, 505, 656)
     d.text((42, 530), "MARKETS / AI", font=sans_b(13), fill=GREEN)
     _chart(d, 410, 528, 90, 34, GREEN)
-    head = _wrap(serif_b(27), "ANTHROPIC DEBUTS ON NASDAQ AS ANT", 448)
+    # Headline wraps at 360, not the full card width: the rising-chart mark
+    # sits in the top-right corner (x 410-500, y 528-562) and the old
+    # 448 wrap let "ANTHROPIC DEBUTS ON" run to x 431, so the chart's line
+    # and axis cut straight through the "ON". Narrower wrap keeps line 1
+    # ("ANTHROPIC DEBUTS", ends x 373) clear of the chart.
+    head = _wrap(serif_b(27), "ANTHROPIC DEBUTS ON NASDAQ AS ANT", 360)
     _text_block(d, 42, 548, head, serif_b(27), INK, 32)
     deck = _wrap(
         sans(14),
@@ -240,7 +245,11 @@ def render(Image, ImageDraw, ImageFont, out_path):
     for i, code in enumerate(("in.png", "jp.png")):
         fl = _flag(Image, ImageDraw, os.path.join(flags, code), 48, 30)
         img.paste(fl, (400 + i * 56, 674))
-    head = _wrap(serif_b(27), "INDIA-JAPAN 2+2 TALKS IN TOKYO", 448)
+    # Same rule as the Anthropic card: the two flags sit in the top-right
+    # corner (x 400-501, y 674-704) and the old 448 wrap let "INDIA-JAPAN
+    # 2+2 TALKS IN" run to x 472, so the flags' bottom edge hid behind the
+    # headline's "KS IN". Wrap at 350 keeps both lines clear of the flags.
+    head = _wrap(serif_b(27), "INDIA-JAPAN 2+2 TALKS IN TOKYO", 350)
     _text_block(d, 42, 692, head, serif_b(27), INK, 32)
     deck = _wrap(
         sans(14),
